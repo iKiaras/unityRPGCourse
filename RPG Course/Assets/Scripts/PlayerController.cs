@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private static PlayerController instance;
     private Vector3 bottomLeftLimit;
     private Vector3 topRightLimit;
+    private bool canMove = true;
     
     void Start()
     {
@@ -33,15 +34,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _rigidbody2D.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * movementSpeed;
+        if (canMove)
+        {
+            _rigidbody2D.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * movementSpeed;
         
-        _animator.SetFloat("moveX", _rigidbody2D.velocity.x);
-        _animator.SetFloat("moveY", _rigidbody2D.velocity.y);
+            _animator.SetFloat("moveX", _rigidbody2D.velocity.x);
+            _animator.SetFloat("moveY", _rigidbody2D.velocity.y);  
+        }
+        else
+        {
+            _rigidbody2D.velocity = Vector2.zero;
+        }
+        
 
         if (Input.GetAxisRaw("Horizontal")==1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical")==1 || Input.GetAxisRaw("Vertical") == -1)
         {
-            _animator.SetFloat("lastMoveX", Input.GetAxisRaw("Horizontal"));
-            _animator.SetFloat("lastMoveY", Input.GetAxisRaw("Vertical"));
+            if (canMove)
+            {
+                _animator.SetFloat("lastMoveX", Input.GetAxisRaw("Horizontal"));
+                _animator.SetFloat("lastMoveY", Input.GetAxisRaw("Vertical"));
+            }
         }
         
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeftLimit.x, topRightLimit.x),Mathf.Clamp(transform.position.y, bottomLeftLimit.y,topRightLimit.y), transform.position.z);
@@ -72,5 +84,15 @@ public class PlayerController : MonoBehaviour
     public string getAreaTransitionName()
     {
         return areaTransitionName;
+    }
+
+    public void disableMovement()
+    {
+        canMove = false;
+    }
+
+    public void enableMovement()
+    {
+        canMove = true;
     }
 }
