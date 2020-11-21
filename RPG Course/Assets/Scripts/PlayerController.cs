@@ -7,8 +7,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private float movementSpeed;
     [SerializeField] private Animator _animator;
+    
     private string areaTransitionName;
     private static PlayerController instance;
+    private Vector3 bottomLeftLimit;
+    private Vector3 topRightLimit;
     
     void Start()
     {
@@ -18,7 +21,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            if (instance != this)
+            {
+                Destroy(gameObject);
+            }
         }
         
         DontDestroyOnLoad(gameObject);
@@ -36,13 +42,26 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetFloat("lastMoveX", Input.GetAxisRaw("Horizontal"));
             _animator.SetFloat("lastMoveY", Input.GetAxisRaw("Vertical"));
-
         }
+        
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeftLimit.x, topRightLimit.x),Mathf.Clamp(transform.position.y, bottomLeftLimit.y,topRightLimit.y), transform.position.z);
+
+    }
+
+    public void SetBounds(Vector3 newBottomLeftLimit, Vector3 newTopRightLimit)
+    {
+        bottomLeftLimit = newBottomLeftLimit + new Vector3(1,1,0);
+        topRightLimit = newTopRightLimit - new Vector3(1,1,0);
     }
 
     public static PlayerController getInstance()
     {
         return instance;
+    }
+
+    public static void setInstance(PlayerController playerController)
+    {
+        instance = playerController;
     }
 
     public void setAreaTransitionName(string name)
