@@ -11,9 +11,12 @@
           <e p="AreaEntrance.cs" t="Include" />
           <e p="AreaExit.cs" t="Include" />
           <e p="CameraController.cs" t="Include" />
+          <e p="CharacterStats.cs" t="Include" />
           <e p="DialogActivator.cs" t="Include" />
           <e p="DialogManager.cs" t="Include" />
           <e p="EssentialsLoader.cs" t="Include" />
+          <e p="GameManager.cs" t="Include" />
+          <e p="GameMenu.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
           <e p="PlayerLoader.cs" t="Include" />
           <e p="UIFader.cs" t="Include" />

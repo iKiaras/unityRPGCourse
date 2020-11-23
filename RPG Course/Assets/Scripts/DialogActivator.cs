@@ -6,6 +6,7 @@ using UnityEngine;
 public class DialogActivator : MonoBehaviour
 {
     [SerializeField] private List<string> lines;
+    [SerializeField] private bool isPerson = true;
     private bool _canActivate;
     
     // Start is called before the first frame update
@@ -19,7 +20,7 @@ public class DialogActivator : MonoBehaviour
     {
         if (_canActivate && Input.GetButtonDown("Fire1") && !DialogManager.getInstance().isDialogBoxActive())
         {
-            DialogManager.getInstance().ShowDialog(lines);
+            DialogManager.getInstance().ShowDialog(lines, isPerson);
         }
     }
 

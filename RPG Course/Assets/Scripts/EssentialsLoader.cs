@@ -6,6 +6,7 @@ public class EssentialsLoader : MonoBehaviour
 {
     [SerializeField] private GameObject UIScreen;
     [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject GameManagerInstance;
     
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,11 @@ public class EssentialsLoader : MonoBehaviour
         {
             PlayerController clone = Instantiate(Player).GetComponent<PlayerController>();
             PlayerController.setInstance(clone);
+        }
+
+        if (GameManager.getInstance() == null)
+        {
+            Instantiate(GameManagerInstance);
         }
     }
 
