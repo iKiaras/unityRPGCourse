@@ -16,7 +16,12 @@ public class AreaEntrance : MonoBehaviour
             }
             
             UIFader.getInstance().fadeFromBlack();
-            GameManager.getInstance().SceneTransitionEnded();
+            
+            if (GameManager.getInstance() != null)
+            {
+                GameManager.getInstance().SceneTransitionEnded();
+            }
+            
         }
 
     }

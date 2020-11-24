@@ -7,7 +7,10 @@ public class GameMenu : MonoBehaviour
 {
 
     [SerializeField] private GameObject theMenu;
-    [SerializeField] private Text nameText, hPText, mPText, levelText, currentXpText, maxCurrentXpText;
+    [SerializeField] private GameObject[] windows;
+    [SerializeField] private Text nameText, hPText, mPText, levelText, expText;
+    [SerializeField] private Slider expSlider;
+    [SerializeField] private Image characterImage;
     private CharacterStats playerStats;
     
     
@@ -24,8 +27,7 @@ public class GameMenu : MonoBehaviour
         {
             if (theMenu.activeInHierarchy)
             {
-                GameManager.getInstance().MenuClosed();
-                theMenu.SetActive(false);
+                closeMenu();
             }
             else
             {
@@ -41,11 +43,39 @@ public class GameMenu : MonoBehaviour
         playerStats = GameManager.getInstance().CharStats;
 
         nameText.text = playerStats.CharacterName;
-        hPText.text = playerStats.CurrentHp.ToString();
-        mPText.text = playerStats.CurrentMp.ToString();
-        levelText.text = playerStats.PlayerLevel.ToString();
-        currentXpText.text = playerStats.CurrentExp.ToString();
-        maxCurrentXpText.text = playerStats.ExpToNextLevel[playerStats.PlayerLevel].ToString();
+        hPText.text = playerStats.CurrentHp + "/" + playerStats.MaxHp;
+        mPText.text = playerStats.CurrentMp + "/" + playerStats.MaxMp;
+        levelText.text = "Level: "+ playerStats.PlayerLevel;
+        expText.text = playerStats.CurrentExp + "/" + playerStats.ExpToNextLevel[playerStats.PlayerLevel];
+        expSlider.value = playerStats.CurrentExp;
+        expSlider.maxValue = playerStats.ExpToNextLevel[playerStats.PlayerLevel];
+        characterImage.sprite = playerStats.CharImage;
+    }
 
+    public void ToggleWindow(int windowNumber)
+    {
+        for (int i = 0; i < windows.Length; i++)
+        {
+            if (i==windowNumber)
+            {
+                windows[i].SetActive(!windows[i].activeInHierarchy);
+            }
+            else
+            {
+                windows[i].SetActive(false);
+            }
+        }
+    }
+
+    public void closeMenu()
+    {
+        for (int i = 0; i < windows.Length; i++)
+        {
+            windows[i].SetActive(false);
+        }
+        
+        theMenu.SetActive(false);
+        
+        GameManager.getInstance().MenuClosed();
     }
 }
