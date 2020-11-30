@@ -11,9 +11,9 @@ public class GameMenu : MonoBehaviour
     [SerializeField] private Text nameText, hPText, mPText, levelText, expText;
     [SerializeField] private Slider expSlider;
     [SerializeField] private Image characterImage;
+    [SerializeField] private Text str, defence, equippedWpn, wpnPower, equippedArmor, armorPwr;
     private CharacterStats playerStats;
-    
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +54,7 @@ public class GameMenu : MonoBehaviour
 
     public void ToggleWindow(int windowNumber)
     {
+        UpdateMainStats();
         for (int i = 0; i < windows.Length; i++)
         {
             if (i==windowNumber)
@@ -77,5 +78,29 @@ public class GameMenu : MonoBehaviour
         theMenu.SetActive(false);
         
         GameManager.getInstance().MenuClosed();
+    }
+
+    public void CharacterStatus()
+    {
+        str.text = playerStats.Strength.ToString();
+        defence.text = playerStats.Defence.ToString();
+        if (!playerStats.EquippedWeaponName.Equals(""))
+        {
+            equippedWpn.text = playerStats.EquippedWeaponName;
+        }
+        else
+        {
+            equippedWpn.text = "None";
+        }
+        wpnPower.text = playerStats.WeaponPower.ToString();
+        if (!playerStats.EquippedArmorName.Equals(""))
+        {
+            equippedArmor.text = playerStats.EquippedArmorName;
+        }
+        else
+        {
+            equippedArmor.text = "None";
+        }
+        armorPwr.text = playerStats.ArmorPower.ToString();
     }
 }
